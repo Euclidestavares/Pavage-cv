@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pavage.CV — Pavimentação & Calçada em Cabo Verde</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sand: #E8D5B0;
+      --ocean: #1A4A6B;
+      --cobalt: #0A2D45;
+      --gold: #C8922A;
+      --cream: #FAF6EE;
+      --stone: #7A6E5F;
+      --white: #FFFFFF;
+      --dark: #0D1B2A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 72px;
+      background: rgba(10, 45, 69, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,146,42,0.25);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+    }
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 0.02em;
+    }
+    .nav-brand span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold);
+      color: var(--white) !important;
+      padding: 10px 22px !important;
+      border-radius: 2px;
+    }
+    .nav-cta:hover { background: #a87520; color: var(--white) !important; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      background: var(--cobalt);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 8% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(26,74,107,0.6) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(200,146,42,0.12) 0%, transparent 60%);
+    }
+    /* Animated cobblestone pattern */
+    .hero-pattern {
+      position: absolute;
+      top: 0; right: 0;
+      width: 55%;
+      height: 100%;
+      opacity: 0.06;
+      background-image:
+        repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 60px),
+        repeating-linear-gradient(90deg, #fff 0, #fff 1px, transparent 1px, transparent 60px);
+      animation: shimmer 8s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%,100%{opacity:0.04} 50%{opacity:0.09} }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 1s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(40px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(200,146,42,0.15);
+      border: 1px solid rgba(200,146,42,0.4);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 2px;
+      margin-bottom: 2rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 5rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.08;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--gold);
+      display: block;
+    }
+    .hero-sub {
+      color: rgba(255,255,255,0.65);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--white);
+      padding: 16px 36px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+      letter-spacing: 0.04em;
+    }
+    .btn-primary:hover { background: #a87520; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      padding: 16px 36px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+      display: inline-block;
+      letter-spacing: 0.04em;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Hero visual - cobblestone mosaic SVG */
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+    .mosaic-wrapper {
+      width: 420px;
+      height: 420px;
+      position: relative;
+    }
+    .mosaic-bg {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    }
+    .hero-stats {
+      position: absolute;
+      bottom: -20px;
+      left: -30px;
+      background: var(--gold);
+      padding: 20px 28px;
+      border-radius: 4px;
+      box-shadow: 0 20px 50px rgba(200,146,42,0.3);
+    }
+    .hero-stats .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+    }
+    .hero-stats .label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.8);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+    .hero-stats2 {
+      position: absolute;
+      top: -20px;
+      right: -30px;
+      background: var(--cobalt);
+      border: 1px solid rgba(200,146,42,0.3);
+      padding: 18px 24px;
+      border-radius: 4px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+    .hero-stats2 .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .hero-stats2 .label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 100px 8%; }
+    .section-tag {
+      display: inline-block;
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-tag::before { content: '— '; }
+    h2.section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+    }
+    .section-desc {
+      color: var(--stone);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      max-width: 560px;
+    }
+
+    /* ─── ABOUT ─── */
+    #sobre {
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-img-main {
+      width: 100%;
+      height: 480px;
+      background: var(--cobalt);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Calçada pattern visual */
+    .calcada-pattern {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 3px;
+      padding: 3px;
+      background: #2A1A0A;
+    }
+    .calcada-stone {
+      background: #C8B89A;
+      border-radius: 1px;
+      transition: background 0.3s;
+    }
+    .calcada-stone:nth-child(3n) { background: #B5A48A; }
+    .calcada-stone:nth-child(5n) { background: #D4C4A8; }
+    .calcada-stone:nth-child(7n) { background: #A89878; }
+    .calcada-stone:nth-child(2n) { background: #BEAD98; }
+    .about-accent {
+      position: absolute;
+      bottom: -25px;
+      right: -25px;
+      background: var(--gold);
+      width: 160px;
+      height: 160px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 50px rgba(200,146,42,0.35);
+    }
+    .about-accent .big-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+    }
+    .about-accent .small-text {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.85);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin-top: 4px;
+    }
+    .about-features {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      background: var(--cream);
+      border-radius: 4px;
+      border-left: 3px solid var(--gold);
+    }
+    .feature-icon {
+      font-size: 1.4rem;
+      margin-top: 2px;
+    }
+    .feature-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+      color: var(--dark);
+    }
+    .feature-desc { font-size: 0.85rem; color: var(--stone); line-height: 1.5; }
+
+    /* ─── SERVICES ─── */
+    #servicos {
+      background: var(--cobalt);
+      position: relative;
+      overflow: hidden;
+    }
+    #servicos::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 40px,
+        rgba(255,255,255,0.015) 40px,
+        rgba(255,255,255,0.015) 80px
+      );
+    }
+    #servicos .section-title { color: var(--white); }
+    #servicos .section-desc { color: rgba(255,255,255,0.55); }
+    .services-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(255,255,255,0.06);
+    }
+    .service-card {
+      background: rgba(10,45,69,0.8);
+      padding: 2.5rem 2rem;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: width 0.4s ease;
+    }
+    .service-card:hover { background: rgba(26,74,107,0.9); }
+    .service-card:hover::after { width: 100%; }
+    .service-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+    }
+    .service-desc { font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+    .service-tags {
+      margin-top: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .service-tag {
+      background: rgba(200,146,42,0.12);
+      border: 1px solid rgba(200,146,42,0.25);
+      color: var(--gold);
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── PORTFOLIO ─── */
+    #portfolio { background: var(--cream); }
+    .portfolio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 50px;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 280px 280px;
+      gap: 8px;
+    }
+    .portfolio-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .portfolio-item:first-child { grid-row: 1 / 3; }
+    .portfolio-thumb {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s ease;
+    }
+    .portfolio-item:hover .portfolio-thumb { transform: scale(1.05); }
+    .portfolio-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(10,45,69,0.92) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .portfolio-loc {
+      font-size: 0.8rem;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+    }
+
+    /* Pattern fills for portfolio */
+    .p1 {
+      background: linear-gradient(135deg, #3D2B1A 0%, #6B5040 50%, #4A3828 100%);
+      position: relative;
+    }
+    .p1::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, #C8B89A 2px, transparent 2px);
+      background-size: 18px 18px;
+      opacity: 0.4;
+    }
+    .p2 {
+      background: linear-gradient(135deg, #1A3A5C 0%, #2A5A8C 100%);
+      position: relative;
+    }
+    .p2::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 30px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 30px);
+    }
+    .p3 { background: linear-gradient(135deg, #8B7355 0%, #A08060 100%); }
+    .p4 { background: linear-gradient(135deg, #2C4A2C 0%, #4A7A4A 100%); }
+    .p5 { background: linear-gradient(135deg, #5C3A1A 0%, #8C5A30 100%); }
+
+    /* ─── WHY US ─── */
+    #porquenos {
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+    .why-list {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .why-item {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.8rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .why-item:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
+    .why-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: rgba(200,146,42,0.2);
+      line-height: 1;
+      min-width: 50px;
+    }
+    .why-title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: var(--dark);
+    }
+    .why-desc { font-size: 0.88rem; color: var(--stone); line-height: 1.65; }
+
+    .why-visual {
+      background: var(--cobalt);
+      border-radius: 4px;
+      padding: 60px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+    .why-visual::before {
+      content: '';
+      position: absolute;
+      top: -50px; right: -50px;
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(200,146,42,0.15) 0%, transparent 70%);
+    }
+    .cert-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 2rem;
+    }
+    .cert-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .cert-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 14px 18px;
+      border-radius: 4px;
+    }
+    .cert-dot {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .cert-text { color: rgba(255,255,255,0.75); font-size: 0.88rem; }
+
+    .cv-flag {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cv-flag-text {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.5;
+    }
+    .cv-flag-text strong { color: var(--gold); display: block; }
+
+    /* ─── STATS BANNER ─── */
+    #estatisticas {
+      background: var(--gold);
+      padding: 60px 8%;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 20px;
+      border-right: 1px solid rgba(255,255,255,0.25);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.8);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 8px;
+    }
+
+    /* ─── CONTACT ─── */
+    #contacto {
+      background: var(--dark);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    #contacto .section-title { color: var(--white); }
+    #contacto .section-desc { color: rgba(255,255,255,0.5); }
+    .contact-info {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .contact-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .contact-ico {
+      font-size: 1.2rem;
+      margin-top: 3px;
+    }
+    .contact-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 2px;
+    }
+    .contact-val { color: rgba(255,255,255,0.75); font-size: 0.92rem; }
+
+    .contact-form {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 2.5rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white);
+      padding: 14px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      border-radius: 2px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+    .form-group select option { background: var(--dark); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    /* ─── JOBS ─── */
+    #emprego {
+      background: var(--cream);
+      padding: 100px 8%;
+    }
+    .jobs-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .jobs-intro .section-desc { max-width: 480px; }
+    .jobs-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .job-card {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1.2rem 1.5rem;
+      background: var(--white);
+      border-radius: 4px;
+      border-left: 3px solid var(--gold);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .job-icon { font-size: 1.8rem; }
+    .job-title { font-weight: 700; font-size: 0.98rem; color: var(--dark); margin-bottom: 3px; }
+    .job-desc  { font-size: 0.82rem; color: var(--stone); line-height: 1.5; }
+    .job-badge {
+      margin-left: auto;
+      background: rgba(200,146,42,0.1);
+      border: 1px solid rgba(200,146,42,0.3);
+      color: var(--gold);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .jobs-form {
+      background: var(--cobalt);
+      border-radius: 4px;
+      padding: 2.5rem;
+    }
+    .jobs-form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .jobs-form .form-group label { color: rgba(255,255,255,0.5); }
+    .jobs-form .form-group input,
+    .jobs-form .form-group select,
+    .jobs-form .form-group textarea {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white);
+    }
+    .jobs-form .form-group input::placeholder,
+    .jobs-form .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .jobs-form .form-group input:focus,
+    .jobs-form .form-group select:focus,
+    .jobs-form .form-group textarea:focus { border-color: var(--gold); }
+    .jobs-form .form-group select option { background: var(--dark); }
+    .equal-opp {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 1rem;
+      padding: 12px 16px;
+      background: rgba(200,146,42,0.08);
+      border-radius: 4px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .equal-opp span { font-size: 1.2rem; }
+    @media (max-width: 900px) {
+      .jobs-inner { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #060D14;
+      padding: 50px 8% 30px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 50px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .footer-brand span { color: var(--gold); }
+    .footer-tagline { font-size: 0.85rem; color: rgba(255,255,255,0.4); line-height: 1.7; }
+    .footer-heading {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .footer-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .footer-list a {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+    .footer-list a:hover { color: var(--gold); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+    }
+    .footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.25); }
+    .footer-islands {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .island-dot {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+
+    .swiss-banner {
+      background: linear-gradient(90deg, #D52B1E 0%, #FFFFFF 50%, #D52B1E 100%);
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .swiss-banner-inner {
+      background: var(--cobalt);
+      margin: 3px 0;
+      padding: 14px 8%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .swiss-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--white);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+    .swiss-pill .s-flag { font-size: 1.2rem; }
+    .swiss-pill strong { color: var(--gold); font-weight: 700; }
+    .swiss-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.15); }
+
+    /* Switzerland highlight section */
+    #suica {
+      background: var(--dark);
+      padding: 80px 8%;
+      position: relative;
+      overflow: hidden;
+    }
+    #suica::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #D52B1E, #FFFFFF, #D52B1E);
+    }
+    .suica-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .suica-badge-big {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(213,43,30,0.08);
+      border: 2px solid rgba(213,43,30,0.3);
+      border-radius: 8px;
+      padding: 50px 40px;
+      text-align: center;
+      position: relative;
+    }
+    .suica-flag-emoji { font-size: 4rem; margin-bottom: 1rem; }
+    .suica-years {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+    }
+    .suica-years span { color: #E8403A; }
+    .suica-anos {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-top: 6px;
+    }
+    .suica-country {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-top: 1rem;
+    }
+    .suica-subtitle {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-top: 6px;
+    }
+    .suica-content .section-title { color: var(--white); }
+    .suica-content .section-desc { color: rgba(255,255,255,0.6); margin-bottom: 2rem; }
+    .suica-values {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .suica-val {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-left: 3px solid #D52B1E;
+      padding: 16px 18px;
+      border-radius: 3px;
+    }
+    .suica-val-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .suica-val-desc { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+    @media (max-width: 900px) {
+      .suica-inner { grid-template-columns: 1fr; gap: 40px; }
+      .swiss-banner-inner { gap: 1rem; }
+      .swiss-divider { display: none; }
+      .suica-values { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; padding: 110px 6% 60px; }
+      .hero-visual { display: none; }
+      #sobre { grid-template-columns: 1fr; gap: 40px; }
+      .services-header { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .portfolio-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .portfolio-item:first-child { grid-row: auto; }
+      #porquenos { grid-template-columns: 1fr; gap: 40px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      #contacto { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 30px; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+      .form-row { grid-template-columns: 1fr; }
+      nav { padding: 0 4%; }
+      .nav-links { display: none; }
+      section { padding: 70px 6%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg class="logo-mark" viewBox="0 0 40 40" fill="none">
+      <rect width="40" height="40" rx="3" fill="rgba(200,146,42,0.15)"/>
+      <!-- Cobblestone pattern -->
+      <rect x="5" y="5" width="12" height="8" rx="1" fill="#C8922A" opacity="0.9"/>
+      <rect x="19" y="5" width="16" height="8" rx="1" fill="#C8922A" opacity="0.6"/>
+      <rect x="5" y="15" width="16" height="10" rx="1" fill="#C8922A" opacity="0.7"/>
+      <rect x="23" y="15" width="12" height="10" rx="1" fill="#C8922A" opacity="0.9"/>
+      <rect x="5" y="27" width="10" height="8" rx="1" fill="#C8922A" opacity="0.6"/>
+      <rect x="17" y="27" width="18" height="8" rx="1" fill="#C8922A" opacity="0.8"/>
+    </svg>
+    <span class="nav-brand">Pavage<span>.CV</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre nós</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#portfolio">Projetos</a></li>
+    <li><a href="#porquenos">Porquê nós</a></li>
+    <li><a href="#emprego">Emprego</a></li>
+    <li><a href="#contacto" class="nav-cta">Pedir orçamento</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🇨🇻 Cabo Verde · Pavimentação de Excelência</div>
+    <h1 class="hero-title">
+      A Arte da Calçada
+      <em>nas Ilhas</em>
+    </h1>
+    <p class="hero-sub">
+      Especialistas em calçada portuguesa, pavimentação de ruas e espaços públicos. Com <strong style="color:var(--gold)">+15 anos de experiência na Suíça</strong> — um país de exigência elevada — levamos esse rigor técnico às ilhas de Cabo Verde.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">Pedir orçamento gratuito</a>
+      <a href="#servicos" class="btn-outline">Ver serviços</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="mosaic-wrapper">
+      <div class="mosaic-bg">
+        <!-- SVG cobblestone visual -->
+        <svg width="420" height="420" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#C8922A" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#0A2D45" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="420" height="420" fill="#1A1008"/>
+          <!-- Row 1 -->
+          <rect x="4" y="4" width="60" height="38" rx="2" fill="#C8B89A"/><rect x="68" y="4" width="44" height="38" rx="2" fill="#B5A08A"/><rect x="116" y="4" width="72" height="38" rx="2" fill="#D4C4A8"/><rect x="192" y="4" width="48" height="38" rx="2" fill="#C0B090"/><rect x="244" y="4" width="64" height="38" rx="2" fill="#B8A888"/><rect x="312" y="4" width="52" height="38" rx="2" fill="#CAB898"/><rect x="368" y="4" width="48" height="38" rx="2" fill="#BCA88C"/>
+          <!-- Row 2 -->
+          <rect x="4" y="46" width="80" height="42" rx="2" fill="#B8A885"/><rect x="88" y="46" width="52" height="42" rx="2" fill="#C8B898"/><rect x="144" y="46" width="44" height="42" rx="2" fill="#D0C0A0"/><rect x="192" y="46" width="68" height="42" rx="2" fill="#B0A080"/><rect x="264" y="46" width="56" height="42" rx="2" fill="#C4B490"/><rect x="324" y="46" width="44" height="42" rx="2" fill="#BCA888"/><rect x="372" y="46" width="44" height="42" rx="2" fill="#C8B89A"/>
+          <!-- Row 3 -->
+          <rect x="4" y="92" width="48" height="40" rx="2" fill="#D4C4A4"/><rect x="56" y="92" width="72" height="40" rx="2" fill="#B8A885"/><rect x="132" y="92" width="56" height="40" rx="2" fill="#C0B090"/><rect x="192" y="92" width="44" height="40" rx="2" fill="#CAB898"/><rect x="240" y="92" width="64" height="40" rx="2" fill="#B4A482"/><rect x="308" y="92" width="52" height="40" rx="2" fill="#D2C2A2"/><rect x="364" y="92" width="52" height="40" rx="2" fill="#BCA888"/>
+          <!-- Row 4 (gold accent row) -->
+          <rect x="4" y="136" width="64" height="42" rx="2" fill="#C8922A" opacity="0.85"/><rect x="72" y="136" width="44" height="42" rx="2" fill="#D4C4A4"/><rect x="120" y="136" width="72" height="42" rx="2" fill="#B8A885"/><rect x="196" y="136" width="52" height="42" rx="2" fill="#C8922A" opacity="0.7"/><rect x="252" y="136" width="44" height="42" rx="2" fill="#C0B090"/><rect x="300" y="136" width="68" height="42" rx="2" fill="#B8A888"/><rect x="372" y="136" width="44" height="42" rx="2" fill="#C8922A" opacity="0.85"/>
+          <!-- Row 5 -->
+          <rect x="4" y="182" width="52" height="40" rx="2" fill="#C8B89A"/><rect x="60" y="182" width="68" height="40" rx="2" fill="#D0C0A0"/><rect x="132" y="182" width="44" height="40" rx="2" fill="#B4A480"/><rect x="180" y="182" width="64" height="40" rx="2" fill="#CAB898"/><rect x="248" y="182" width="56" height="40" rx="2" fill="#D4C4A4"/><rect x="308" y="182" width="44" height="40" rx="2" fill="#BCA888"/><rect x="356" y="182" width="60" height="40" rx="2" fill="#B8A885"/>
+          <!-- Row 6 -->
+          <rect x="4" y="226" width="76" height="42" rx="2" fill="#B8A882"/><rect x="84" y="226" width="48" height="42" rx="2" fill="#C8B895"/><rect x="136" y="226" width="56" height="42" rx="2" fill="#D2C2A2"/><rect x="196" y="226" width="44" height="42" rx="2" fill="#B0A07E"/><rect x="244" y="226" width="68" height="42" rx="2" fill="#C4B490"/><rect x="316" y="226" width="48" height="42" rx="2" fill="#BCA888"/><rect x="368" y="226" width="48" height="42" rx="2" fill="#CAB898"/>
+          <!-- Row 7 (gold) -->
+          <rect x="4" y="272" width="44" height="40" rx="2" fill="#C8B89A"/><rect x="52" y="272" width="68" height="40" rx="2" fill="#C8922A" opacity="0.8"/><rect x="124" y="272" width="52" height="40" rx="2" fill="#D4C4A4"/><rect x="180" y="272" width="72" height="40" rx="2" fill="#B8A882"/><rect x="256" y="272" width="44" height="40" rx="2" fill="#C8922A" opacity="0.75"/><rect x="304" y="272" width="64" height="40" rx="2" fill="#CAB898"/><rect x="372" y="272" width="44" height="40" rx="2" fill="#D0C0A0"/>
+          <!-- Row 8 -->
+          <rect x="4" y="316" width="56" height="42" rx="2" fill="#D0C09E"/><rect x="64" y="316" width="44" height="42" rx="2" fill="#BCA888"/><rect x="112" y="316" width="72" height="42" rx="2" fill="#C8B895"/><rect x="188" y="316" width="52" height="42" rx="2" fill="#B4A480"/><rect x="244" y="316" width="64" height="42" rx="2" fill="#D4C4A4"/><rect x="312" y="316" width="48" height="42" rx="2" fill="#C0B090"/><rect x="364" y="316" width="52" height="42" rx="2" fill="#B8A885"/>
+          <!-- Row 9 -->
+          <rect x="4" y="362" width="68" height="54" rx="2" fill="#BCA888"/><rect x="76" y="362" width="52" height="54" rx="2" fill="#D2C2A0"/><rect x="132" y="362" width="44" height="54" rx="2" fill="#C8B895"/><rect x="180" y="362" width="64" height="54" rx="2" fill="#C8922A" opacity="0.7"/><rect x="248" y="362" width="56" height="54" rx="2" fill="#B8A882"/><rect x="308" y="362" width="48" height="54" rx="2" fill="#D4C4A4"/><rect x="360" y="362" width="56" height="54" rx="2" fill="#CAB898"/>
+          <!-- Glow overlay -->
+          <rect width="420" height="420" fill="url(#glow)"/>
+        </svg>
+      </div>
+      <div class="hero-stats">
+        <div class="num">15+</div>
+        <div class="label">Anos na Suíça 🇨🇭</div>
+      </div>
+      <div class="hero-stats2">
+        <div class="num">9</div>
+        <div class="label">Ilhas Cobertas 🇨🇻</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="sobre">
+  <div class="about-visual">
+    <div class="about-img-main">
+      <div class="calcada-pattern" id="calcadaGrid"></div>
+    </div>
+    <div class="about-accent">
+      <div class="big-num">100%</div>
+      <div class="small-text">Qualidade<br>Garantida</div>
+    </div>
+  </div>
+  <div class="about-content">
+    <span class="section-tag">Sobre a Pavage.CV</span>
+    <h2 class="section-title">Tradição europeia<br>ao serviço de Cabo Verde</h2>
+    <p class="section-desc">
+      A Pavage.CV nasce da experiência acumulada na Suíça e nos mercados europeus, onde executámos projetos de calçada portuguesa e pavimentação urbana de excelência. Chegamos a Cabo Verde com a missão de transformar as ruas e espaços públicos das ilhas com qualidade, durabilidade e identidade estética.
+    </p>
+    <div class="about-features">
+      <div class="feature-item">
+        <div class="feature-icon">🪨</div>
+        <div>
+          <div class="feature-title">Mestres Calceteiros Certificados</div>
+          <div class="feature-desc">Equipa especializada com certificação europeia em calçada portuguesa e pavimentação de pedra natural.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🌍</div>
+        <div>
+          <div class="feature-title">Experiência Internacional</div>
+          <div class="feature-desc">Obras realizadas em Portugal, Suíça, França e agora com foco total no desenvolvimento de Cabo Verde.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">⚙️</div>
+        <div>
+          <div class="feature-title">Materiais de Alta Qualidade</div>
+          <div class="feature-desc">Pedra natural, granito, basalto e materiais certificados para máxima durabilidade no clima atlântico.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="servicos">
+  <div class="services-header">
+    <div>
+      <span class="section-tag" style="color:var(--gold)">O que fazemos</span>
+      <h2 class="section-title">Serviços de<br>Pavimentação</h2>
+    </div>
+    <p class="section-desc">Da calçada artística aos grandes projetos de infraestrutura urbana, oferecemos soluções completas de pavimentação para Cabo Verde.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-icon">🏛️</span>
+      <div class="service-name">Calçada Portuguesa</div>
+      <div class="service-desc">Arte em pedra. Padrões tradicionais em granito e calcário executados por mestres calceteiros com décadas de experiência. Ideal para praças, passeios e centros históricos.</div>
+      <div class="service-tags">
+        <span class="service-tag">Granito</span>
+        <span class="service-tag">Basalto</span>
+        <span class="service-tag">Padrões</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🛣️</span>
+      <div class="service-name">Pavimentação de Ruas</div>
+      <div class="service-desc">Execução de arruamentos, estradas e infraestruturas viárias com materiais duráveis e técnicas modernas. Desde preparação do terreno à pavimentação final.</div>
+      <div class="service-tags">
+        <span class="service-tag">Arruamentos</span>
+        <span class="service-tag">Pavé</span>
+        <span class="service-tag">Asfalto</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🌿</span>
+      <div class="service-name">Arranjos Exteriores</div>
+      <div class="service-desc">Jardins, espaços de lazer, parques e zonas verdes com pavimentação integrada. Conjugamos estética e funcionalidade para espaços públicos e privados.</div>
+      <div class="service-tags">
+        <span class="service-tag">Jardins</span>
+        <span class="service-tag">Parques</span>
+        <span class="service-tag">Lazer</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🏗️</span>
+      <div class="service-name">Obras Públicas</div>
+      <div class="service-desc">Participação em projetos de infraestrutura municipal, reabilitação de centros históricos e desenvolvimento urbano. Parceria com câmaras e entidades públicas.</div>
+      <div class="service-tags">
+        <span class="service-tag">Municipal</span>
+        <span class="service-tag">Reabilitação</span>
+        <span class="service-tag">Urbano</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🏘️</span>
+      <div class="service-name">Obras Privadas</div>
+      <div class="service-desc">Villas, hotéis, resorts e condomínios. Elevamos a estética e o valor do imobiliário em Cabo Verde com pavimentação de alto padrão.</div>
+      <div class="service-tags">
+        <span class="service-tag">Hotéis</span>
+        <span class="service-tag">Villas</span>
+        <span class="service-tag">Condomínios</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">⚡</span>
+      <div class="service-name">Corte de Precisão</div>
+      <div class="service-desc">Equipamentos de corte profissionais para acabamentos ultra-precisos. Cada pedra cortada ao milímetro para juntas perfeitas, encaixes impecáveis e um resultado final de nível europeu.</div>
+      <div class="service-tags">
+        <span class="service-tag">Ultra-Preciso</span>
+        <span class="service-tag">Acabamento</span>
+        <span class="service-tag">Profissional</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">📏</span>
+      <div class="service-name">Nivelamento Mecânico</div>
+      <div class="service-desc">Máquinas de placagem específicas para calçada que garantem uma superfície perfeitamente nivelada em toda a extensão da obra — sem irregularidades, sem desníveis.</div>
+      <div class="service-tags">
+        <span class="service-tag">Nivelado</span>
+        <span class="service-tag">Uniforme</span>
+        <span class="service-tag">Durável</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">📐</span>
+      <div class="service-name">Consultoria & Projeto</div>
+      <div class="service-desc">Apoio técnico, elaboração de projetos, consultoria em materiais e soluções. Trabalhamos com arquitetos e engenheiros para os melhores resultados.</div>
+      <div class="service-tags">
+        <span class="service-tag">Projeto</span>
+        <span class="service-tag">Consultoria</span>
+        <span class="service-tag">Orçamento</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <span class="section-tag">Projetos realizados</span>
+      <h2 class="section-title">O nosso<br>Trabalho</h2>
+    </div>
+    <a href="#contacto" class="btn-primary" style="align-self:flex-end">Ver todos os projetos</a>
+  </div>
+  <div class="portfolio-grid">
+    <div class="portfolio-item p1">
+      <div class="portfolio-thumb" style="height:100%"></div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-title">Praça Central — Santiago</div>
+        <div class="portfolio-loc">📍 Praia, Santiago · 1.200 m²</div>
+      </div>
+    </div>
+    <div class="portfolio-item p2">
+      <div class="portfolio-thumb" style="height:100%"></div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-title">Passeio Marítimo</div>
+        <div class="portfolio-loc">📍 Mindelo, São Vicente · 800 m²</div>
+      </div>
+    </div>
+    <div class="portfolio-item p3">
+      <div class="portfolio-thumb" style="height:100%"></div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-title">Resort Privado</div>
+        <div class="portfolio-loc">📍 Sal Rei, Boa Vista · 650 m²</div>
+      </div>
+    </div>
+    <div class="portfolio-item p4">
+      <div class="portfolio-thumb" style="height:100%"></div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-title">Rua Histórica</div>
+        <div class="portfolio-loc">📍 Ribeira Grande, Santo Antão</div>
+      </div>
+    </div>
+    <div class="portfolio-item p5">
+      <div class="portfolio-thumb" style="height:100%"></div>
+      <div class="portfolio-overlay">
+        <div class="portfolio-title">Jardim Municipal</div>
+        <div class="portfolio-loc">📍 Santa Maria, Sal · 400 m²</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="estatisticas">
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Projetos Concluídos</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">25.000</div>
+      <div class="stat-label">m² Pavimentados</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">15+</div>
+      <div class="stat-label">Anos na Suíça 🇨🇭</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">9</div>
+      <div class="stat-label">Ilhas Servidas 🇨🇻</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="porquenos">
+  <div>
+    <span class="section-tag">Porquê a Pavage.CV</span>
+    <h2 class="section-title">O que nos<br>distingue</h2>
+    <p class="section-desc">Combinamos décadas de experiência europeia com profundo conhecimento do território e das necessidades de Cabo Verde.</p>
+    <div class="why-list">
+      <div class="why-item">
+        <div class="why-num">01</div>
+        <div>
+          <div class="why-title">Experiência Comprovada na Europa</div>
+          <div class="why-desc">Obras realizadas na Suíça, Portugal e França. Trazemos o melhor da tradição europeia diretamente para as ilhas.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">02</div>
+        <div>
+          <div class="why-title">Equipa Especializada e Certificada</div>
+          <div class="why-desc">Mestres calceteiros com formação técnica rigorosa e vasta experiência em calçada artística e pavimentação urbana.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">03</div>
+        <div>
+          <div class="why-title">⚡ Máquinas de Corte Ultra-Precisas</div>
+          <div class="why-desc">Equipamentos profissionais de corte que garantem acabamentos ao milímetro — juntas perfeitas, encaixes impecáveis, resultado digno dos melhores projetos europeus.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">04</div>
+        <div>
+          <div class="why-title">📏 Máquinas de Nivelamento de Calçada</div>
+          <div class="why-desc">Placagem mecânica especializada que assegura uma superfície uniformemente nivelada em toda a obra — sem irregularidades, segura e durável.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">05</div>
+        <div>
+          <div class="why-title">Materiais Adaptados ao Clima</div>
+          <div class="why-desc">Selecionamos pedra natural e materiais certificados resistentes ao calor, humidade e salinidade atlântica de Cabo Verde.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">06</div>
+        <div>
+          <div class="why-title">Prazos Cumpridos, Orçamentos Respeitados</div>
+          <div class="why-desc">Gestão rigorosa de obra com transparência total. Entregamos dentro do prazo e do orçamento acordado, sempre.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="why-visual">
+    <div class="cert-title">Capacidade Técnica</div>
+    <div class="cert-list">
+      <div class="cert-item"><div class="cert-dot"></div><div class="cert-text">Calçada Portuguesa — Padrões artísticos e geométricos</div></div>
+      <div class="cert-item"><div class="cert-dot"></div><div class="cert-text">Pavê em Granito, Basalto e Pedra Natural</div></div>
+      <div class="cert-item"><div class="cert-dot"></div><div class="cert-text">Lajetas e Lajeado / Dallage à francesa</div></div>
+      <div class="cert-item"><div class="cert-dot"></div><div class="cert-text">Pousa em leque e rabo de pavão</div></div>
+      <div class="cert-item"><div class="cert-dot"></div><div class="cert-text">⚡ Corte de pedra ultra-preciso com máquinas profissionais</div></div>
+      <div class="cert-item"><div class="cert-dot"></div><div class="cert-text">📏 Nivelamento mecânico — superfícies perfeitamente planas</div></div>
+      <div class="cert-item"><div class="cert-dot"></div><div class="cert-text">Terraplanagens e preparação de terreno</div></div>
+      <div class="cert-item"><div class="cert-dot"></div><div class="cert-text">Reabilitação e restauro de pavimentos históricos</div></div>
+    </div>
+    <div class="cv-flag">
+      <div style="font-size:2rem">🇨🇻</div>
+      <div class="cv-flag-text">
+        <strong>Empresa registada em Cabo Verde</strong>
+        Comprometidos com o desenvolvimento das ilhas e a criação de emprego local qualificado.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contacto">
+  <div>
+    <span class="section-tag" style="color:var(--gold)">Contacto</span>
+    <h2 class="section-title">Peça o seu<br>Orçamento</h2>
+    <p class="section-desc">Resposta em 24 horas. Analisamos o seu projeto gratuitamente e apresentamos uma proposta detalhada.</p>
+    <div class="contact-info">
+      <div class="contact-row">
+        <div class="contact-ico">📞</div>
+        <div>
+          <div class="contact-label">Telefone / WhatsApp</div>
+          <div class="contact-val">+238 XXX XX XX</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-ico">✉️</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-val"><a href="/cdn-cgi/l/email-protection#017160776066642f627741666c60686d2f626e6c" style="color:rgba(255,255,255,0.75);text-decoration:none;"><span class="__cf_email__" data-cfemail="641405120503014a0712240309050d084a070b09">[email&#160;protected]</span></a></div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-ico">📍</div>
+        <div>
+          <div class="contact-label">Sede</div>
+          <div class="contact-val">Praia, Santiago — Cabo Verde<br>Com presença em todas as ilhas</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-ico">🕐</div>
+        <div>
+          <div class="contact-label">Horário</div>
+          <div class="contact-val">Segunda a Sexta: 8h00 – 18h00<br>Sábado: 8h00 – 13h00</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="#C8922A" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="4.5" stroke="#C8922A" stroke-width="1.8"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="#C8922A"/>
+          </svg>
+        </div>
+        <div>
+          <div class="contact-label">Instagram</div>
+          <div class="contact-val">
+            <a href="https://www.instagram.com/pavage.cv" target="_blank"
+               style="color:rgba(255,255,255,0.75);text-decoration:none;transition:color 0.2s;"
+               onmouseover="this.style.color='#C8922A'" onmouseout="this.style.color='rgba(255,255,255,0.75)'">
+              @pavage.cv
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nome completo</label>
+        <input type="text" placeholder="O seu nome" />
+      </div>
+      <div class="form-group">
+        <label>Telefone / WhatsApp</label>
+        <input type="tel" placeholder="+238 ..." />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" placeholder="email@exemplo.com" />
+    </div>
+    <div class="form-group">
+      <label>Tipo de Serviço</label>
+      <select>
+        <option value="">Selecionar...</option>
+        <option>Calçada Portuguesa</option>
+        <option>Pavimentação de Ruas</option>
+        <option>Arranjos Exteriores</option>
+        <option>Obra Pública</option>
+        <option>Obra Privada</option>
+        <option>Consultoria / Projeto</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Ilha</label>
+        <select>
+          <option value="">Selecionar...</option>
+          <option>Santiago</option>
+          <option>São Vicente</option>
+          <option>Santo Antão</option>
+          <option>Fogo</option>
+          <option>Sal</option>
+          <option>Boa Vista</option>
+          <option>Maio</option>
+          <option>São Nicolau</option>
+          <option>Brava</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Área Estimada (m²)</label>
+        <input type="text" placeholder="Ex: 500 m²" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Descrição do Projeto</label>
+      <textarea placeholder="Descreva brevemente o seu projeto..."></textarea>
+    </div>
+    <button class="btn-primary" style="width:100%;font-size:1rem;padding:18px;" onclick="alert('Obrigado! Entraremos em contacto em menos de 24 horas.')">
+      Enviar pedido de orçamento →
+    </button>
+  </div>
+</section>
+
+<!-- JOBS -->
+<section id="emprego">
+  <div class="jobs-inner">
+    <div class="jobs-intro">
+      <span class="section-tag">Trabalha connosco</span>
+      <h2 class="section-title">Faz parte<br>da equipa</h2>
+      <p class="section-desc">
+        Estamos a crescer em Cabo Verde e procuramos pessoas motivadas, homens e mulheres, que queiram aprender e construir uma carreira sólida na pavimentação. Experiência é uma vantagem — mas a vontade de trabalhar é o que mais conta.
+      </p>
+      <div class="jobs-cards">
+        <div class="job-card">
+          <div class="job-icon">🪨</div>
+          <div>
+            <div class="job-title">Calceteiro / Calceteira</div>
+            <div class="job-desc">Experiência em calçada portuguesa, pavê ou pedra natural. Formação oferecida a candidatos com vontade de aprender.</div>
+          </div>
+          <div class="job-badge">Urgente</div>
+        </div>
+        <div class="job-card">
+          <div class="job-icon">🏗️</div>
+          <div>
+            <div class="job-title">Técnico / Técnica de Obra</div>
+            <div class="job-desc">Responsável pelo acompanhamento técnico, controlo de qualidade e gestão de equipa em obra.</div>
+          </div>
+          <div class="job-badge">Disponível</div>
+        </div>
+        <div class="job-card">
+          <div class="job-icon">🤝</div>
+          <div>
+            <div class="job-title">Ajudante de Calceteiro/a</div>
+            <div class="job-desc">Sem experiência necessária. Formação completa em obra. Perfil: esforçado/a, pontual e com vontade de aprender.</div>
+          </div>
+          <div class="job-badge">Várias Vagas</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="jobs-form">
+      <div class="jobs-form-title">📋 Candidatura Espontânea</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome completo</label>
+          <input type="text" id="j-nome" placeholder="O seu nome" />
+        </div>
+        <div class="form-group">
+          <label>Idade</label>
+          <input type="number" id="j-idade" placeholder="Ex: 28" min="18" max="65"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Género</label>
+        <select id="j-genero">
+          <option value="">Selecionar...</option>
+          <option>Masculino</option>
+          <option>Feminino</option>
+          <option>Prefiro não dizer</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Telemóvel / WhatsApp</label>
+          <input type="tel" id="j-tel" placeholder="+238 ..." />
+        </div>
+        <div class="form-group">
+          <label>Ilha onde reside</label>
+          <select id="j-ilha">
+            <option value="">Selecionar...</option>
+            <option>Santiago</option>
+            <option>São Vicente</option>
+            <option>Santo Antão</option>
+            <option>Fogo</option>
+            <option>Sal</option>
+            <option>Boa Vista</option>
+            <option>Maio</option>
+            <option>São Nicolau</option>
+            <option>Brava</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Função pretendida</label>
+        <select id="j-funcao">
+          <option value="">Selecionar...</option>
+          <option>Calceteiro / Calceteira</option>
+          <option>Ajudante de Calceteiro/a</option>
+          <option>Técnico / Técnica de Obra</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Experiência na área</label>
+        <select id="j-exp">
+          <option value="">Selecionar...</option>
+          <option>Sem experiência — quero aprender</option>
+          <option>Menos de 1 ano</option>
+          <option>1 a 3 anos</option>
+          <option>Mais de 3 anos</option>
+          <option>Mais de 5 anos</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Fala um pouco sobre si</label>
+        <textarea id="j-msg" placeholder="Diz-nos porque queres trabalhar connosco, o que já fizeste e quando podes começar..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;font-size:1rem;padding:16px;" onclick="enviarCandidatura()">
+        Enviar candidatura →
+      </button>
+      <div class="equal-opp">
+        <span>⚖️</span>
+        A Pavage.CV é uma empresa de igualdade de oportunidades. Candidaturas de homens e mulheres são igualmente bem-vindas.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Pavage<span>.CV</span></div>
+      <div class="footer-tagline">Especialistas em calçada portuguesa e pavimentação urbana em Cabo Verde. Qualidade europeia ao serviço das ilhas.</div>
+    </div>
+    <div>
+      <div class="footer-heading">Serviços</div>
+      <ul class="footer-list">
+        <li><a href="#">Calçada Portuguesa</a></li>
+        <li><a href="#">Pavimentação de Ruas</a></li>
+        <li><a href="#">Arranjos Exteriores</a></li>
+        <li><a href="#">Obras Públicas</a></li>
+        <li><a href="#">Obras Privadas</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Ilhas</div>
+      <ul class="footer-list">
+        <li><a href="#">Santiago</a></li>
+        <li><a href="#">São Vicente</a></li>
+        <li><a href="#">Santo Antão</a></li>
+        <li><a href="#">Sal & Boa Vista</a></li>
+        <li><a href="#">Outras ilhas</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Empresa</div>
+      <ul class="footer-list">
+        <li><a href="#">Sobre nós</a></li>
+        <li><a href="#">Projetos</a></li>
+        <li><a href="#">Equipa</a></li>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Pedir orçamento</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Pavage.CV — Todos os direitos reservados.</div>
+    <a href="https://www.instagram.com/pavage.cv" target="_blank"
+       style="display:flex;align-items:center;gap:8px;text-decoration:none;color:rgba(255,255,255,0.35);font-size:0.82rem;letter-spacing:0.05em;transition:color 0.2s;"
+       onmouseover="this.style.color='#C8922A'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.8"/>
+        <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/>
+        <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+      </svg>
+      @pavage.cv
+    </a>
+    <div class="footer-islands">
+      <div class="island-dot"></div>
+      <span>Cabo Verde · 9 Ilhas · 1 Empresa de Confiança</span>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Generate cobblestone grid
+  const grid = document.getElementById('calcadaGrid');
+  if (grid) {
+    const colors = ['#C8B89A','#B5A08A','#D4C4A8','#C0B090','#B8A888','#CAB898','#BCA88C','#BEAD98','#A89878','#D0C0A0'];
+    for (let i = 0; i < 80; i++) {
+      const stone = document.createElement('div');
+      stone.className = 'calcada-stone';
+      stone.style.background = colors[Math.floor(Math.random() * colors.length)];
+      stone.style.minHeight = '40px';
+      grid.appendChild(stone);
+    }
+  }
+
+  // ── Candidatura por email ──
+  function enviarCandidatura() {
+    const nome    = document.getElementById('j-nome').value.trim();
+    const idade   = document.getElementById('j-idade').value.trim();
+    const genero  = document.getElementById('j-genero').value;
+    const tel     = document.getElementById('j-tel').value.trim();
+    const ilha    = document.getElementById('j-ilha').value;
+    const funcao  = document.getElementById('j-funcao').value;
+    const exp     = document.getElementById('j-exp').value;
+    const msg     = document.getElementById('j-msg').value.trim();
+
+    if (!nome || !tel || !funcao || !ilha) {
+      alert('Por favor preenche pelo menos o nome, telemóvel, ilha e função pretendida.');
+      return;
+    }
+
+    const assunto = encodeURIComponent(`Candidatura — ${funcao} — ${nome}`);
+    const corpo   = encodeURIComponent(
+`NOVA CANDIDATURA — PAVAGE.CV
+═══════════════════════════════
+
+👤 Nome:       ${nome}
+🎂 Idade:      ${idade || 'Não indicada'}
+⚧  Género:     ${genero || 'Não indicado'}
+📞 Telemóvel:  ${tel}
+📍 Ilha:       ${ilha}
+💼 Função:     ${funcao}
+🔧 Experiência: ${exp || 'Não indicada'}
+
+💬 Mensagem:
+${msg || '(sem mensagem)'}
+
+═══════════════════════════════
+Enviado pelo site Pavage.CV`
+    );
+
+    window.location.href = `mailto:pavage.cv@gmail.com?subject=${assunto}&body=${corpo}`;
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+    
